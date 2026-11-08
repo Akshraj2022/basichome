@@ -1,10 +1,10 @@
-# Basic Home (Base Home: Genesis)
+# Basic Home
+
+> **No bullshit, simply a launcher.**
 
 [![Release](https://img.shields.io/badge/release-v1.0.0--Genesis-blue.svg)](https://github.com/akshraj2022/basichome/releases)
 [![Platform](https://img.shields.io/badge/platform-Android%20TV-green.svg)](https://developer.android.com/tv)
 [![License](https://img.shields.io/badge/license-MIT-purple.svg)](LICENSE)
-
-An ultra-optimized, zero-bloat, ad-free Android TV Leanback launcher meticulously crafted for low-RAM and weak GPU devices (tested on Acer P Series 42" AR42AP2841FD - Cortex-A53, Mali-470 GPU, 1.5 GB RAM).
 
 ---
 
@@ -22,100 +22,49 @@ An ultra-optimized, zero-bloat, ad-free Android TV Leanback launcher meticulousl
 
 ## Key Features
 
-1. **Upper Bar in Black & Gray Shades**:
-   - Modern dark charcoal pill (`#161619`) with subtle slate borders (`#2C2C34`).
-   - High-contrast button focus states with a 2dp crisp white focus ring (`#FFFFFF`).
-   - Integrated digital clock in bold pure white.
-
-2. **Always-On Ambient Gradient Scrim**:
-   - Layered `FrameLayout` architecture where rows smoothly glide underneath the top bar.
-   - Smooth linear falloff starting at maximum density (`#F50C0C10`, 96% opacity) at the top and seamlessly tapering to 0% opacity at 124dp.
-   - Terminates cleanly at the active section title ("Recent"), keeping row headings and tiles 100% bright and crisp.
-
-3. **Curved Squircle Play Store Icons**:
-   - Authentic official Play Store app icons scaled up to fill 124dp tile boxes.
-   - Anti-aliased 18% squircle curvature via `RoundedBitmapDrawableFactory`.
-   - Ultra-HD 512x512 master icons scraped directly from Google's Play CDN and cached permanently on device storage.
-
-4. **Custom Matching Settings Icon**:
-   - Handcrafted slate squircle card with silver/white mechanical gear and cyan accent hub.
-
-5. **7 Organized TV Categories**:
-   - **Recent**: Dynamic recently launched applications.
-   - **Entertainment**: Top video streaming platforms (Netflix, YouTube, Prime Video, Hotstar, JioCinema, SonyLIV, etc.).
-   - **Media & Music**: YouTube Music, MX Player TV, USB Media Player, Xiaomi TV+, Google TV Movies.
-   - **Games**: Dedicated games shelf (Beach Buggy Racing, Ludo King, etc.).
-   - **Tools & VPN**: Proton VPN, Windscribe VPN, FastScreen, AirCast TV.
-   - **System**: Custom Settings card, Google Play Store, TV Manager, Google Assistant.
-   - **Inputs**: Hardware TV passthrough inputs (HDMI 1, HDMI 2, AV) via `TvInputManager`.
-
-6. **Infallible Bidirectional D-Pad Navigation**:
-   - Up from Recent row tiles 0–1 focuses **All Apps**; tiles 2–4 focus **Search**.
-   - Down from All Apps focuses tile 0; down from Search focuses tile 2 (aligned vertically).
-   - Down from the bottom row stays put; left/right bounds do not wrap.
-   - Smooth auto-centering on active rows with clearance under the top bar.
-
-7. **Solar Astronomical Day/Night Themes**:
-   - Automatically calculates sunrise & sunset locally from the TV timezone and day of year.
-   - Switches between sleek daytime canvas and pitch dark cinema canvas, keeping the upper bar permanently in sleek black & gray shades.
+- **Simple & Elegant**: Something you actually use daily.
+- **Elegant & Visible**: Let's be real, who actually uses Google recommendations? So we just gave you apps cuz we like 'em big & visible.
+- **Simply Sorted**: Most recent apps at the top, and everything else cleanly divided into 6 categories (Entertainment, Media & Music, Games, Tools & VPN, System, and Inputs).
+- **Simply Liquid**: Like liquid, it just adjusts. It switches automatically between light and dark mode based on actual local sunset and sunrise times.
+- **Simply Optimized**: Our standards are low, like your parents to you (kidding). We tested this on a 7-year-old TV chip and 1.5 GB RAM, so even if you have your oldest Android TV, it can take it. And if you have a Sony flagship, that's great. Plus it's only 3.2 MB, so I mean if you don't have that much storage left, you need help. Like, serious help.
+- **Simply Easy**: It's easy to use and install. Here are the directions:
 
 ---
 
-## Performance Metrics
+## Directions to Install
 
-| Metric | Target | Measured |
-|---|---|---|
-| **APK Size** | < 5.0 MB | **~3.2 MB** |
-| **Idle RAM Usage** | < 70 MB | **~38–48 MB** |
-| **Cold Start Time** | < 1.5 s | **~0.8 s** |
-| **Frame Rate** | 60 FPS | **Solid 60 FPS** (Hardware Accelerated) |
+### 1. Download
+Grab the latest release APK from [Releases](https://github.com/akshraj2022/basichome/releases):
+- **[BasicHome-v1.0.0.apk](https://github.com/akshraj2022/basichome/releases/download/v1.0.0/BasicHome-v1.0.0.apk)**
 
----
-
-## Installation & Setup
-
-### 1. Download Release
-Download the latest `BasicHome-v1.0.0.apk` from [Releases](https://github.com/akshraj2022/basichome/releases).
-
-### 2. Install via Wireless ADB
-Connect to your Android TV (enable Developer Options & Network Debugging in Settings):
+### 2. Connect via ADB
+Enable **Developer Options** & **Network Debugging** on your Android TV:
 ```bash
 adb connect <TV_IP_ADDRESS>:5555
+```
+
+### 3. Install
+```bash
 adb install -r BasicHome-v1.0.0.apk
 ```
 
-### 3. Launch
+### 4. Launch
 ```bash
 adb shell am start -n com.minimal.tvlauncher/.MainActivity
 ```
 
-### 4. (Optional) Set as Default Home Launcher
+### 5. (Optional) Set as Default Launcher
 ```bash
 adb shell cmd package set-home-activity com.minimal.tvlauncher/.MainActivity
 ```
 
-### 5. (Optional) Disable Bloatware Stock Google TV Launcher
+### 6. (Optional) Disable Stock Google TV Bloat
 ```bash
 adb shell pm disable-user --user 0 com.google.android.apps.tv.launcherx
 ```
 
 ---
 
-## Build from Source
+## Simply Licensed
 
-### Prerequisites
-- JDK 17 (e.g., from Android Studio `jbr`)
-- Android SDK 34
-
-### Build Command
-```bash
-./gradlew assembleRelease
-```
-The compiled APK will be generated at:
-`app/build/outputs/apk/release/app-release.apk`
-
----
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+Oh yeah, you can't just copy this, bro — my bad. Check the [LICENSE](LICENSE) file for more details.
