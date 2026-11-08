@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="docs/logo.png" width="90" alt="Basic Home Logo">
+</p>
+
 # Basic Home
 
 > **No bullshit, simply a launcher.**
