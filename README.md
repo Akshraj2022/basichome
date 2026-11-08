@@ -23,7 +23,7 @@
 ## Key Features
 
 - **Simple & Elegant**: Something you actually use daily.
-- **Elegant & Visible**: Let's be real, who actually uses Google recommendations? So we just gave you apps cuz we like 'em big & visible.
+- **Elegant & Visible**: Let's be real, who actually uses Google recommendations? So we just gave you apps and big ones cuz we like 'em big & visible.
 - **Simply Sorted**: Most recent apps at the top, and everything else cleanly divided into 6 categories (Entertainment, Media & Music, Games, Tools & VPN, System, and Inputs).
 - **Simply Liquid**: Like liquid, it just adjusts. It switches automatically between light and dark mode based on actual local sunset and sunrise times.
 - **Simply Optimized**: Our standards are low, like your parents to you (kidding). We tested this on a 7-year-old TV chip and 1.5 GB RAM, so even if you have your oldest Android TV, it can take it. And if you have a Sony flagship, that's great. Plus it's only 3.2 MB, so I mean if you don't have that much storage left, you need help. Like, serious help.
