@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Basic Home</string>
+    <string name="section_recent">Recent</string>
+    <string name="section_entertainment">Entertainment</string>
+    <string name="section_media">Media &amp; Music</string>
+    <string name="section_games">Games</string>
+    <string name="section_tools">Tools &amp; VPN</string>
+    <string name="section_utility">System</string>
+    <string name="section_inputs">Inputs</string>
+    <string name="search_hint">Search</string>
+    <string name="more_apps">More</string>
+    
+    <string name="menu_move_left">Move Left</string>
+    <string name="menu_move_right">Move Right</string>
+    <string name="menu_remove">Remove from row</string>
+    <string name="menu_replace">Replace App</string>
+    
+    <string name="all_apps_title">All Applications</string>
+    <string name="input_hdmi1">HDMI 1</string>
+    <string name="input_hdmi2">HDMI 2</string>
+    <string name="input_hdmi3">HDMI 3</string>
+    <string name="input_av">AV</string>
+</resources>

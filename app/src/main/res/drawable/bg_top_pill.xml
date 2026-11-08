@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="@color/top_pill_bg" />
+    <corners android:radius="@dimen/top_bar_pill_radius" />
+    <stroke
+        android:width="1.5dp"
+        android:color="@color/top_pill_border" />
+</shape>

@@ -1,0 +1,14 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="96dp"
+    android:height="96dp"
+    android:viewportWidth="96"
+    android:viewportHeight="96">
+    <!-- Outer orange circle -->
+    <path
+        android:fillColor="#F47521"
+        android:pathData="M48,16c-17.7,0 -32,14.3 -32,32s14.3,32 32,32 32,-14.3 32,-32S65.7,16 48,16z M48,72c-13.3,0 -24,-10.7 -24,-24s10.7,-24 24,-24 24,10.7 24,24 -10.7,24 -24,24z" />
+    <!-- Inner orange crescent pupil -->
+    <path
+        android:fillColor="#F47521"
+        android:pathData="M52,36c-6.6,0 -12,5.4 -12,12s5.4,12 12,12 12,-5.4 12,-12 -5.4,-12 -12,-12z" />
+</vector>

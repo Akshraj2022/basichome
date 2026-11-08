@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.TvLauncher" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowBackground">@color/canvas_background</item>
+        <item name="android:colorBackground">@color/canvas_background</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowOverscan">true</item>
+        <!-- Keep UI crisp with no ambient drop shadows -->
+        <item name="android:ambientShadowAlpha">0</item>
+        <item name="android:spotShadowAlpha">0</item>
+        <item name="android:textColor">@color/heading_text</item>
+    </style>
+
+    <style name="TvDialogTheme" parent="Theme.AppCompat.Dialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:ambientShadowAlpha">0</item>
+        <item name="android:spotShadowAlpha">0</item>
+    </style>
+</resources>

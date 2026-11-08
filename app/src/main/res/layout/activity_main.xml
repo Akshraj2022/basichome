@@ -1,0 +1,540 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/canvas_background"
+    android:clipChildren="false"
+    android:clipToPadding="false">
+
+    <!-- 1. CONTENT SCROLL CONTAINER (Base layer: glides under top bar & scrim) -->
+    <ScrollView
+        android:id="@+id/content_scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:paddingStart="@dimen/safe_margin_horizontal"
+        android:paddingEnd="@dimen/safe_margin_horizontal"
+        android:paddingTop="96dp"
+        android:paddingBottom="@dimen/safe_margin_vertical"
+        android:overScrollMode="never"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:id="@+id/rows_wrapper"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:orientation="vertical">
+
+            <!-- 2. RECENT ROW -->
+            <TextView
+                android:id="@+id/heading_recent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="@dimen/heading_margin_bottom"
+                android:text="@string/section_recent"
+                android:textColor="@color/heading_text"
+                android:textSize="@dimen/heading_text_size"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:id="@+id/container_recent_row"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_row_container"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/row_container_padding_h"
+                android:paddingTop="@dimen/row_container_padding_v"
+                android:paddingEnd="@dimen/row_container_padding_h"
+                android:paddingBottom="@dimen/row_container_padding_v">
+
+                <com.minimal.tvlauncher.view.TvTileView
+                    android:id="@+id/recent_tile_0"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+                <View android:layout_width="@dimen/tile_gap" android:layout_height="1dp" />
+                <com.minimal.tvlauncher.view.TvTileView
+                    android:id="@+id/recent_tile_1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+                <View android:layout_width="@dimen/tile_gap" android:layout_height="1dp" />
+                <com.minimal.tvlauncher.view.TvTileView
+                    android:id="@+id/recent_tile_2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+                <View android:layout_width="@dimen/tile_gap" android:layout_height="1dp" />
+                <com.minimal.tvlauncher.view.TvTileView
+                    android:id="@+id/recent_tile_3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+                <View android:layout_width="@dimen/tile_gap" android:layout_height="1dp" />
+                <com.minimal.tvlauncher.view.TvTileView
+                    android:id="@+id/recent_tile_more"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+            </LinearLayout>
+
+            <!-- 3. ENTERTAINMENT ROW -->
+            <TextView
+                android:id="@+id/heading_entertainment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/heading_margin_top"
+                android:layout_marginBottom="@dimen/heading_margin_bottom"
+                android:text="@string/section_entertainment"
+                android:textColor="@color/heading_text"
+                android:textSize="@dimen/heading_text_size"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:id="@+id/container_entertainment_row"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_row_container"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/row_container_padding_h"
+                android:paddingTop="@dimen/row_container_padding_v"
+                android:paddingEnd="@dimen/row_container_padding_h"
+                android:paddingBottom="@dimen/row_container_padding_v">
+
+                <com.minimal.tvlauncher.view.TvTileView
+                    android:id="@+id/entertainment_tile_0"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+                <View android:layout_width="@dimen/tile_gap" android:layout_height="1dp" />
+                <com.minimal.tvlauncher.view.TvTileView
+                    android:id="@+id/entertainment_tile_1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+                <View android:layout_width="@dimen/tile_gap" android:layout_height="1dp" />
+                <com.minimal.tvlauncher.view.TvTileView
+                    android:id="@+id/entertainment_tile_2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+                <View android:layout_width="@dimen/tile_gap" android:layout_height="1dp" />
+                <com.minimal.tvlauncher.view.TvTileView
+                    android:id="@+id/entertainment_tile_3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+                <View android:layout_width="@dimen/tile_gap" android:layout_height="1dp" />
+                <com.minimal.tvlauncher.view.TvTileView
+                    android:id="@+id/entertainment_tile_more"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+            </LinearLayout>
+
+            <!-- 4. MEDIA & MUSIC ROW -->
+            <TextView
+                android:id="@+id/heading_media"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/heading_margin_top"
+                android:layout_marginBottom="@dimen/heading_margin_bottom"
+                android:text="@string/section_media"
+                android:textColor="@color/heading_text"
+                android:textSize="@dimen/heading_text_size"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:id="@+id/container_media_row"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_row_container"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/row_container_padding_h"
+                android:paddingTop="@dimen/row_container_padding_v"
+                android:paddingEnd="@dimen/row_container_padding_h"
+                android:paddingBottom="@dimen/row_container_padding_v">
+
+                <com.minimal.tvlauncher.view.TvTileView
+                    android:id="@+id/media_tile_0"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+                <View android:layout_width="@dimen/tile_gap" android:layout_height="1dp" />
+                <com.minimal.tvlauncher.view.TvTileView
+                    android:id="@+id/media_tile_1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+                <View android:layout_width="@dimen/tile_gap" android:layout_height="1dp" />
+                <com.minimal.tvlauncher.view.TvTileView
+                    android:id="@+id/media_tile_2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+                <View android:layout_width="@dimen/tile_gap" android:layout_height="1dp" />
+                <com.minimal.tvlauncher.view.TvTileView
+                    android:id="@+id/media_tile_3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+                <View android:layout_width="@dimen/tile_gap" android:layout_height="1dp" />
+                <com.minimal.tvlauncher.view.TvTileView
+                    android:id="@+id/media_tile_more"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+            </LinearLayout>
+
+            <!-- 5. GAMES ROW -->
+            <TextView
+                android:id="@+id/heading_games"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/heading_margin_top"
+                android:layout_marginBottom="@dimen/heading_margin_bottom"
+                android:text="@string/section_games"
+                android:textColor="@color/heading_text"
+                android:textSize="@dimen/heading_text_size"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:id="@+id/container_games_row"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_row_container"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/row_container_padding_h"
+                android:paddingTop="@dimen/row_container_padding_v"
+                android:paddingEnd="@dimen/row_container_padding_h"
+                android:paddingBottom="@dimen/row_container_padding_v">
+
+                <com.minimal.tvlauncher.view.TvTileView
+                    android:id="@+id/games_tile_0"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+                <View android:layout_width="@dimen/tile_gap" android:layout_height="1dp" />
+                <com.minimal.tvlauncher.view.TvTileView
+                    android:id="@+id/games_tile_1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+                <View android:layout_width="@dimen/tile_gap" android:layout_height="1dp" />
+                <com.minimal.tvlauncher.view.TvTileView
+                    android:id="@+id/games_tile_2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+                <View android:layout_width="@dimen/tile_gap" android:layout_height="1dp" />
+                <com.minimal.tvlauncher.view.TvTileView
+                    android:id="@+id/games_tile_3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+                <View android:layout_width="@dimen/tile_gap" android:layout_height="1dp" />
+                <com.minimal.tvlauncher.view.TvTileView
+                    android:id="@+id/games_tile_more"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+            </LinearLayout>
+
+            <!-- 6. TOOLS & VPN ROW -->
+            <TextView
+                android:id="@+id/heading_tools"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/heading_margin_top"
+                android:layout_marginBottom="@dimen/heading_margin_bottom"
+                android:text="@string/section_tools"
+                android:textColor="@color/heading_text"
+                android:textSize="@dimen/heading_text_size"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:id="@+id/container_tools_row"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_row_container"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/row_container_padding_h"
+                android:paddingTop="@dimen/row_container_padding_v"
+                android:paddingEnd="@dimen/row_container_padding_h"
+                android:paddingBottom="@dimen/row_container_padding_v">
+
+                <com.minimal.tvlauncher.view.TvTileView
+                    android:id="@+id/tools_tile_0"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+                <View android:layout_width="@dimen/tile_gap" android:layout_height="1dp" />
+                <com.minimal.tvlauncher.view.TvTileView
+                    android:id="@+id/tools_tile_1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+                <View android:layout_width="@dimen/tile_gap" android:layout_height="1dp" />
+                <com.minimal.tvlauncher.view.TvTileView
+                    android:id="@+id/tools_tile_2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+                <View android:layout_width="@dimen/tile_gap" android:layout_height="1dp" />
+                <com.minimal.tvlauncher.view.TvTileView
+                    android:id="@+id/tools_tile_3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+                <View android:layout_width="@dimen/tile_gap" android:layout_height="1dp" />
+                <com.minimal.tvlauncher.view.TvTileView
+                    android:id="@+id/tools_tile_more"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+            </LinearLayout>
+
+            <!-- 7. SYSTEM ROW -->
+            <TextView
+                android:id="@+id/heading_utility"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/heading_margin_top"
+                android:layout_marginBottom="@dimen/heading_margin_bottom"
+                android:text="@string/section_utility"
+                android:textColor="@color/heading_text"
+                android:textSize="@dimen/heading_text_size"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:id="@+id/container_utility_row"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_row_container"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/row_container_padding_h"
+                android:paddingTop="@dimen/row_container_padding_v"
+                android:paddingEnd="@dimen/row_container_padding_h"
+                android:paddingBottom="@dimen/row_container_padding_v">
+
+                <com.minimal.tvlauncher.view.TvTileView
+                    android:id="@+id/utility_tile_0"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+                <View android:layout_width="@dimen/tile_gap" android:layout_height="1dp" />
+                <com.minimal.tvlauncher.view.TvTileView
+                    android:id="@+id/utility_tile_1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+                <View android:layout_width="@dimen/tile_gap" android:layout_height="1dp" />
+                <com.minimal.tvlauncher.view.TvTileView
+                    android:id="@+id/utility_tile_2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+                <View android:layout_width="@dimen/tile_gap" android:layout_height="1dp" />
+                <com.minimal.tvlauncher.view.TvTileView
+                    android:id="@+id/utility_tile_3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+                <View android:layout_width="@dimen/tile_gap" android:layout_height="1dp" />
+                <com.minimal.tvlauncher.view.TvTileView
+                    android:id="@+id/utility_tile_more"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+            </LinearLayout>
+
+            <!-- 8. INPUTS ROW -->
+            <TextView
+                android:id="@+id/heading_inputs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/heading_margin_top"
+                android:layout_marginBottom="@dimen/heading_margin_bottom"
+                android:text="@string/section_inputs"
+                android:textColor="@color/heading_text"
+                android:textSize="@dimen/heading_text_size"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:id="@+id/container_inputs_row"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="32dp"
+                android:background="@drawable/bg_row_container"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/row_container_padding_h"
+                android:paddingTop="@dimen/row_container_padding_v"
+                android:paddingEnd="@dimen/row_container_padding_h"
+                android:paddingBottom="@dimen/row_container_padding_v">
+
+                <com.minimal.tvlauncher.view.TvTileView
+                    android:id="@+id/inputs_tile_0"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+                <View android:layout_width="@dimen/tile_gap" android:layout_height="1dp" />
+                <com.minimal.tvlauncher.view.TvTileView
+                    android:id="@+id/inputs_tile_1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+                <View android:layout_width="@dimen/tile_gap" android:layout_height="1dp" />
+                <com.minimal.tvlauncher.view.TvTileView
+                    android:id="@+id/inputs_tile_2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+                <View android:layout_width="@dimen/tile_gap" android:layout_height="1dp" />
+                <com.minimal.tvlauncher.view.TvTileView
+                    android:id="@+id/inputs_tile_3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+                <View android:layout_width="@dimen/tile_gap" android:layout_height="1dp" />
+                <com.minimal.tvlauncher.view.TvTileView
+                    android:id="@+id/inputs_tile_4"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- 2. TOP GRADIENT SCRIM (Always-on ambient gradient backdrop: darkest at top, decreasing and stopping at Recent row title) -->
+    <View
+        android:id="@+id/top_gradient_scrim"
+        android:layout_width="match_parent"
+        android:layout_height="124dp"
+        android:background="@drawable/bg_top_scrim"
+        android:clickable="false"
+        android:focusable="false"
+        android:importantForAccessibility="no" />
+
+    <!-- 3. TOP BAR (Sleek black & gray shades, elevated above the scrim) -->
+    <LinearLayout
+        android:id="@+id/top_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/top_bar_height"
+        android:layout_marginTop="@dimen/safe_margin_vertical"
+        android:layout_marginStart="@dimen/safe_margin_horizontal"
+        android:layout_marginEnd="@dimen/safe_margin_horizontal"
+        android:elevation="8dp"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/top_left_pill"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_top_pill"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp">
+
+            <ImageButton
+                android:id="@+id/btn_home"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:background="@drawable/bg_pill_button"
+                android:contentDescription="@string/app_name"
+                android:focusable="true"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_home" />
+
+            <View
+                android:layout_width="4dp"
+                android:layout_height="1dp" />
+
+            <ImageButton
+                android:id="@+id/btn_all_apps"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:background="@drawable/bg_pill_button"
+                android:contentDescription="@string/all_apps_title"
+                android:focusable="true"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_grid" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="@dimen/top_bar_gap"
+            android:layout_height="1dp" />
+
+        <LinearLayout
+            android:id="@+id/btn_search"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/bg_search_pill"
+            android:focusable="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp">
+
+            <ImageView
+                android:id="@+id/iv_search_icon"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_search" />
+
+            <TextView
+                android:id="@+id/tv_search_placeholder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="@string/search_hint"
+                android:textColor="@color/search_text_hint"
+                android:textSize="15sp" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="28dp"
+            android:layout_height="1dp" />
+
+        <TextView
+            android:id="@+id/tv_clock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/clock_text"
+            android:textSize="@dimen/clock_text_size"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+</FrameLayout>

@@ -1,0 +1,18 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+    <!-- Circle 1 (cx=10, cy=24, r=4) -->
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M10,20a4,4 0 1,0 0.001,0z" />
+    <!-- Circle 2 (cx=24, cy=24, r=4) -->
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M24,20a4,4 0 1,0 0.001,0z" />
+    <!-- Circle 3 (cx=38, cy=24, r=4) -->
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M38,20a4,4 0 1,0 0.001,0z" />
+</vector>

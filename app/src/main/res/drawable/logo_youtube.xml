@@ -1,0 +1,14 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="96dp"
+    android:height="96dp"
+    android:viewportWidth="96"
+    android:viewportHeight="96">
+    <!-- YouTube Red Pill -->
+    <path
+        android:fillColor="#FF0000"
+        android:pathData="M84,33.5c-0.8,-3 -3.2,-5.3 -6.1,-6.1C72.5,26 48,26 48,26s-24.5,0 -29.9,1.4c-3,0.8 -5.3,3.1 -6.1,6.1C10.5,38.9 10.5,48 10.5,48s0,9.1 1.5,14.5c0.8,3 3.2,5.3 6.1,6.1C23.5,70 48,70 48,70s24.5,0 29.9,-1.4c3,-0.8 5.3,-3.1 6.1,-6.1C85.5,57.1 85.5,48 85.5,48S85.5,38.9 84,33.5z" />
+    <!-- White Triangle Play Button -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M40.5,38.5v19l16.5,-9.5z" />
+</vector>

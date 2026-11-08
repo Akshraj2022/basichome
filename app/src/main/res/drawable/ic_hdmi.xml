@@ -1,0 +1,10 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+    <!-- HDMI connector shape -->
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M10,14h28v14l-4,6H14l-4,-6V14z M14,18v8h2v-8h-2z M18,18v8h2v-8h-2z M22,18v8h4v-8h-4z M28,18v8h2v-8h-2z M32,18v8h2v-8h-2z" />
+</vector>

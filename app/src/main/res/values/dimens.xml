@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 5% Safe Margins on 1920x1080 (96px horizontal, 54px vertical) -->
+    <dimen name="safe_margin_horizontal">48dp</dimen>
+    <dimen name="safe_margin_vertical">24dp</dimen>
+
+    <!-- Top Bar -->
+    <dimen name="top_bar_height">56dp</dimen>
+    <dimen name="top_bar_pill_radius">28dp</dimen>
+    <dimen name="top_bar_pill_padding_h">16dp</dimen>
+    <dimen name="top_bar_gap">16dp</dimen>
+    <dimen name="clock_text_size">36sp</dimen>
+
+    <!-- Section Heading -->
+    <dimen name="heading_text_size">30sp</dimen>
+    <dimen name="heading_margin_top">18dp</dimen>
+    <dimen name="heading_margin_bottom">10dp</dimen>
+
+    <!-- Row Container -->
+    <dimen name="row_container_radius">24dp</dimen>
+    <dimen name="row_container_padding_v">14dp</dimen>
+    <dimen name="row_container_padding_h">18dp</dimen>
+    <dimen name="tile_gap">16dp</dimen>
+
+    <!-- Tile Component -->
+    <dimen name="tile_box_size">124dp</dimen>
+    <dimen name="tile_radius">20dp</dimen>
+    <dimen name="tile_border_width">3dp</dimen>
+    <dimen name="tile_icon_size">72dp</dimen>
+    <dimen name="tile_label_size">12sp</dimen>
+    <dimen name="tile_label_margin_top">6dp</dimen>
+</resources>

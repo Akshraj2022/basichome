@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Dark Mode Colors (Night / Sunset) -->
+    <color name="canvas_background">#0D0D0D</color>
+    <color name="top_pill_bg">#161619</color>
+    <color name="top_pill_border">#2C2C34</color>
+    <color name="top_button_normal">#222228</color>
+    <color name="top_button_border">#2E2E38</color>
+    <color name="top_button_focused">#3E3E4C</color>
+    <color name="search_pill_bg">#1A1A20</color>
+    <color name="search_pill_border">#30303C</color>
+    <color name="search_pill_focused">#262630</color>
+    <color name="search_text_hint">#9898A4</color>
+    <color name="search_text">#FFFFFF</color>
+    <color name="clock_text">#FFFFFF</color>
+    <color name="heading_text">#FFFFFF</color>
+    <color name="row_container_bg">#1A1A1A</color>
+    <color name="tile_bg_normal">#111111</color>
+    <color name="tile_border_focused">#FFFFFF</color>
+
+    <!-- Light Mode Colors (Daytime / Sunrise to Sunset) -->
+    <color name="canvas_background_light">#ECECF2</color>
+    <color name="top_pill_bg_light">#161619</color>
+    <color name="search_pill_bg_light">#1A1A20</color>
+    <color name="search_text_hint_light">#9898A4</color>
+    <color name="search_text_light">#FFFFFF</color>
+    <color name="clock_text_light">#FFFFFF</color>
+    <color name="heading_text_light">#1C1C1E</color>
+    <color name="row_container_bg_light">#DDDDE5</color>
+    <color name="tile_bg_normal_light">#1F1F24</color>
+    <color name="tile_border_focused_light">#FFFFFF</color>
+
+    <color name="tile_border_transparent">#00000000</color>
+    <color name="tile_label_normal">#B3FFFFFF</color>
+    <color name="tile_label_focused">#FFFFFF</color>
+
+    <color name="pill_button_focused">#3E3E4C</color>
+    <color name="pill_button_pressed">#4A4A58</color>
+    <color name="pill_button_focused_light">#3E3E4C</color>
+
+    <color name="dialog_bg">#1A1A1A</color>
+    <color name="dialog_item_focused">#2E2E2E</color>
+</resources>
