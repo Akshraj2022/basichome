@@ -249,7 +249,8 @@ class MainActivity : AppCompatActivity() {
         )
 
         for (rowIndex in rows.indices) {
-            val currentRow = rows[rowIndex]
+            val currentRow = rows[rowIndex].filter { it.visibility == View.VISIBLE }
+            if (currentRow.isEmpty()) continue
             val isFirstRow = rowIndex == 0
             val isLastRow = rowIndex == rows.size - 1
 
@@ -260,14 +261,20 @@ class MainActivity : AppCompatActivity() {
                 tile.nextFocusUpId = if (isFirstRow) {
                     if (colIndex <= 1) R.id.btn_all_apps else R.id.btn_search
                 } else {
-                    rows[rowIndex - 1][colIndex.coerceAtMost(rows[rowIndex - 1].size - 1)].id
+                    val prevRow = rows[rowIndex - 1].filter { it.visibility == View.VISIBLE }
+                    if (prevRow.isNotEmpty()) {
+                        prevRow[colIndex.coerceAtMost(prevRow.size - 1)].id
+                    } else tile.id
                 }
 
                 // Down navigation (Hard rule: last row stays put)
                 tile.nextFocusDownId = if (isLastRow) {
                     tile.id
                 } else {
-                    rows[rowIndex + 1][colIndex.coerceAtMost(rows[rowIndex + 1].size - 1)].id
+                    val nextRow = rows[rowIndex + 1].filter { it.visibility == View.VISIBLE }
+                    if (nextRow.isNotEmpty()) {
+                        nextRow[colIndex.coerceAtMost(nextRow.size - 1)].id
+                    } else tile.id
                 }
 
                 // Left navigation (No wrap at start)
@@ -287,40 +294,45 @@ class MainActivity : AppCompatActivity() {
         }
 
         // Top bar D-pad routing
+        val firstRecent = recentTiles.firstOrNull { it.visibility == View.VISIBLE } ?: recentTiles[0]
         btnHome.nextFocusLeftId = R.id.btn_home
         btnHome.nextFocusRightId = R.id.btn_all_apps
         btnHome.nextFocusUpId = R.id.btn_home
-        btnHome.nextFocusDownId = recentTiles[0].id
+        btnHome.nextFocusDownId = firstRecent.id
 
         btnAllApps.nextFocusLeftId = R.id.btn_home
         btnAllApps.nextFocusRightId = R.id.btn_search
         btnAllApps.nextFocusUpId = R.id.btn_all_apps
-        btnAllApps.nextFocusDownId = recentTiles[0].id
+        btnAllApps.nextFocusDownId = firstRecent.id
 
+        val searchDownTarget = recentTiles.filter { it.visibility == View.VISIBLE }.let {
+            if (it.size > 2) it[2] else it.firstOrNull() ?: recentTiles[0]
+        }
         searchPill.nextFocusLeftId = R.id.btn_all_apps
         searchPill.nextFocusRightId = R.id.btn_search
         searchPill.nextFocusUpId = R.id.btn_search
-        searchPill.nextFocusDownId = recentTiles[1].id
+        searchPill.nextFocusDownId = searchDownTarget.id
 
         // Explicit key handlers for infallible transition between top bar and content rows
         btnHome.setOnKeyListener { _, keyCode, event ->
             if (event.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_DPAD_DOWN) {
-                recentTiles.firstOrNull()?.requestFocus()
+                recentTiles.firstOrNull { it.visibility == View.VISIBLE }?.requestFocus()
                 true
             } else false
         }
 
         btnAllApps.setOnKeyListener { _, keyCode, event ->
             if (event.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_DPAD_DOWN) {
-                recentTiles.firstOrNull()?.requestFocus()
+                recentTiles.firstOrNull { it.visibility == View.VISIBLE }?.requestFocus()
                 true
             } else false
         }
 
         searchPill.setOnKeyListener { _, keyCode, event ->
             if (event.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_DPAD_DOWN) {
-                if (recentTiles.size > 2) recentTiles[2].requestFocus()
-                else recentTiles.firstOrNull()?.requestFocus()
+                val visible = recentTiles.filter { it.visibility == View.VISIBLE }
+                if (visible.size > 2) visible[2].requestFocus()
+                else visible.firstOrNull()?.requestFocus()
                 true
             } else false
         }
@@ -399,14 +411,23 @@ class MainActivity : AppCompatActivity() {
     private fun refreshAllRows() {
         AppManager.ensureAllCategoriesPopulated(this, prefManager)
 
-        val recentList = prefManager.getRecentApps()
+        val allApps = AppManager.getAllLaunchableApps(this).map { it.packageName }
+        val recentList = prefManager.getRecentApps().toMutableList()
         val entertainmentList = prefManager.getEntertainmentRow()
         val mediaList = prefManager.getMediaRow()
         val gamesList = prefManager.getGamesRow()
         val toolsList = prefManager.getToolsRow()
         val utilityList = prefManager.getUtilityRow()
 
-        val effectiveRecent = if (recentList.isNotEmpty()) recentList else entertainmentList.take(4)
+        if (recentList.size < 4) {
+            for (pkg in entertainmentList + mediaList + allApps) {
+                if (!recentList.contains(pkg)) {
+                    recentList.add(pkg)
+                    if (recentList.size == 4) break
+                }
+            }
+        }
+        val effectiveRecent = recentList
 
         populateAppRow(recentTiles, effectiveRecent, Category.RECENT)
         populateAppRow(entertainmentTiles, entertainmentList, Category.ENTERTAINMENT)
@@ -415,6 +436,7 @@ class MainActivity : AppCompatActivity() {
         populateAppRow(toolsTiles, toolsList, Category.TOOLS)
         populateAppRow(utilityTiles, utilityList, Category.UTILITY)
         setupInputsRow()
+        setupDpadNavigation()
     }
 
     private enum class Category { RECENT, ENTERTAINMENT, MEDIA, GAMES, TOOLS, UTILITY }
@@ -439,24 +461,14 @@ class MainActivity : AppCompatActivity() {
                     showTileOptionsDialog(pkg, i, category)
                 }
             } else {
-                tile.setTileData(null, "Add")
-                val fallbackIcon = when (category) {
-                    Category.MEDIA -> R.drawable.ic_tv
-                    Category.GAMES -> R.drawable.ic_gamepad
-                    Category.TOOLS -> R.drawable.ic_settings
-                    Category.UTILITY -> R.drawable.ic_settings
-                    else -> R.drawable.ic_grid
-                }
-                tile.setTileIcon(fallbackIcon)
-                tile.setOnClickListener {
-                    openAppGrid()
-                }
+                tile.visibility = View.GONE
                 tile.onTileLongClickListener = null
             }
         }
 
         // 5th Tile: "..." More Tile
         val moreTile = tiles[4]
+        moreTile.visibility = View.VISIBLE
         moreTile.setTileData(null, getString(R.string.more_apps))
         moreTile.setTileIcon(R.drawable.ic_more)
         moreTile.setOnClickListener {

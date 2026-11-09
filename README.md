@@ -6,7 +6,7 @@
 
 > **No bullshit, simply a launcher.**
 
-[![Release](https://img.shields.io/badge/release-v1.0.0--Genesis-blue.svg)](https://github.com/akshraj2022/basichome/releases)
+[![Release](https://img.shields.io/badge/release-v2.0.0--Zwei-blue.svg)](https://github.com/akshraj2022/basichome/releases)
 [![Platform](https://img.shields.io/badge/platform-Android%20TV-green.svg)](https://developer.android.com/tv)
 [![License](https://img.shields.io/badge/license-MIT-purple.svg)](LICENSE)
 
@@ -39,7 +39,7 @@
 
 ### 1. Download
 Grab the latest release APK from [Releases](https://github.com/akshraj2022/basichome/releases):
-- **[BasicHome-v1.0.0.apk](https://github.com/akshraj2022/basichome/releases/download/v1.0.0/BasicHome-v1.0.0.apk)**
+- **[BasicHome-v2.0.0.apk](https://github.com/akshraj2022/basichome/releases/download/v2.0.0/BasicHome-v2.0.0.apk)**
 
 ### 2. Connect via ADB
 Enable **Developer Options** & **Network Debugging** on your Android TV:
@@ -49,7 +49,7 @@ adb connect <TV_IP_ADDRESS>:5555
 
 ### 3. Install
 ```bash
-adb install -r BasicHome-v1.0.0.apk
+adb install -r BasicHome-v2.0.0.apk
 ```
 
 ### 4. Launch

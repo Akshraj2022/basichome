@@ -10,8 +10,7 @@
         android:name="android.hardware.touchscreen"
         android:required="false" />
 
-    <!-- Network permission for one-time Brandfetch logo retrieval -->
-    <uses-permission android:name="android.permission.INTERNET" />
+
 
     <!-- Query all installed applications to populate the launcher grid -->
     <uses-permission

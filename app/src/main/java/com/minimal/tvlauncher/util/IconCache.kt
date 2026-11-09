@@ -16,16 +16,22 @@ import com.minimal.tvlauncher.R
 import java.util.Locale
 
 /**
- * High-definition Play Store curved icon cache.
- * 1. Serves official 512x512 Google Play Store icons scaled via Google's free CDN scaler.
- * 2. Applies hardware-accelerated anti-aliased curved squircle corners.
- * 3. Falls back immediately to high-density APK icons (XXXHIGH/XXHIGH) with zero waiting.
- * 4. Guarantees no icon is ever blank or low-resolution.
+ * 100% Offline, high-definition squircle icon engine for Android TV.
+ *
+ * 1. Zero external network/API dependencies - completely self-sufficient and offline.
+ * 2. Extracts high-density authentic icons directly from installed APK packages via PackageManager.
+ * 3. Supports both adaptive square icons and wide 16:9 Leanback TV banners (center-cropped to 256x256).
+ * 4. Applies hardware-accelerated anti-aliased 18% squircle corner curvature.
+ * 5. Deterministic typographic monogram fallback with elegant dark squircle styling (no weird hollow boxes).
  */
 object IconCache {
 
-    private const val MAX_CACHE_SIZE = 96
+    private const val MAX_CACHE_SIZE = 128
     private val cache = object : LruCache<String, Drawable>(MAX_CACHE_SIZE) {}
+
+    fun clear() {
+        cache.evictAll()
+    }
 
     fun getIcon(
         context: Context,
@@ -36,8 +42,8 @@ object IconCache {
         val cached = cache.get(packageName)
         if (cached != null) return cached
 
-        // 1. Custom matching squircle icon for TV Settings
-        if (packageName.contains("settings")) {
+        // 1. Settings App special case (sleek settings gear icon)
+        if (packageName.contains("settings", ignoreCase = true)) {
             val settingsDrawable = ContextCompat.getDrawable(context, R.drawable.ic_settings)
             if (settingsDrawable != null) {
                 val curved = createCurvedDrawable(context, drawableToBitmap(settingsDrawable, 256, 256))
@@ -46,77 +52,68 @@ object IconCache {
             }
         }
 
-        // 2. Check persistent storage for previously downloaded 512x512 Play Store icon
-        val storedBitmap = PlayStoreIconHelper.loadStoredIcon(context, packageName)
-        if (storedBitmap != null) {
-            val rounded = createCurvedDrawable(context, storedBitmap)
-            cache.put(packageName, rounded)
-            return rounded
-        }
-
-        // 2. Trigger asynchronous background fetch from Google Play CDN scaler
-        PlayStoreIconHelper.fetchPlayStoreIconAsync(context, packageName) { freshBitmap ->
-            val freshRounded = createCurvedDrawable(context, freshBitmap)
-            cache.put(packageName, freshRounded)
-            onAsyncLoaded?.invoke(freshRounded)
-        }
-
-        // 3. Immediate local fallback: Extract high-density (640dpi XXXHIGH) icon from APK
+        // 2. High-res APK icon extraction
         val pm = context.packageManager
         var rawDrawable: Drawable? = null
+
         try {
             val launchIntent = pm.getLeanbackLaunchIntentForPackage(packageName)
                 ?: pm.getLaunchIntentForPackage(packageName)
             val activityInfo = launchIntent?.resolveActivityInfo(pm, 0)
-            val appInfo = pm.getApplicationInfo(packageName, 0)
-            val appRes = pm.getResourcesForApplication(appInfo)
+            val appInfo = try { pm.getApplicationInfo(packageName, 0) } catch (_: Exception) { null }
 
-            val iconResId = if (activityInfo != null && activityInfo.icon != 0) {
-                activityInfo.icon
-            } else if (appInfo.icon != 0) {
-                appInfo.icon
-            } else {
-                0
-            }
+            // A. High-density resource retrieval (XXXHIGH 640dpi -> XXHIGH 480dpi)
+            if (appInfo != null) {
+                val appRes = try { pm.getResourcesForApplication(appInfo) } catch (_: Exception) { null }
+                if (appRes != null) {
+                    val iconResId = if (activityInfo != null && activityInfo.icon != 0) {
+                        activityInfo.icon
+                    } else if (appInfo.icon != 0) {
+                        appInfo.icon
+                    } else 0
 
-            if (iconResId != 0) {
-                rawDrawable = try {
-                    appRes.getDrawableForDensity(iconResId, DisplayMetrics.DENSITY_XXXHIGH, null)
-                } catch (_: Exception) {
-                    try {
-                        appRes.getDrawableForDensity(iconResId, DisplayMetrics.DENSITY_XXHIGH, null)
-                    } catch (_: Exception) {
-                        null
+                    if (iconResId != 0) {
+                        rawDrawable = try {
+                            appRes.getDrawableForDensity(iconResId, DisplayMetrics.DENSITY_XXXHIGH, null)
+                        } catch (_: Exception) {
+                            try {
+                                appRes.getDrawableForDensity(iconResId, DisplayMetrics.DENSITY_XXHIGH, null)
+                            } catch (_: Exception) {
+                                null
+                            }
+                        }
                     }
                 }
             }
 
+            // B. Direct Activity or Application icon
+            if (rawDrawable == null && activityInfo != null) {
+                rawDrawable = try { activityInfo.loadIcon(pm) } catch (_: Exception) { null }
+            }
+            if (rawDrawable == null && appInfo != null) {
+                rawDrawable = try { pm.getApplicationIcon(appInfo) } catch (_: Exception) { null }
+            }
             if (rawDrawable == null) {
-                rawDrawable = activityInfo?.loadIcon(pm) ?: appInfo.loadIcon(pm)
+                rawDrawable = try { pm.getApplicationIcon(packageName) } catch (_: Exception) { null }
+            }
+
+            // C. Android TV Leanback Banner fallback
+            if (rawDrawable == null && activityInfo != null) {
+                rawDrawable = try { activityInfo.loadBanner(pm) } catch (_: Exception) { null }
+            }
+            if (rawDrawable == null && appInfo != null) {
+                rawDrawable = try { appInfo.loadBanner(pm) } catch (_: Exception) { null }
             }
         } catch (_: Exception) {}
 
-        // 4. Vector asset fallback for system & media items
-        if (rawDrawable == null) {
-            val brandResId = when {
-                packageName.contains("netflix") -> R.drawable.logo_netflix
-                packageName.contains("youtube") && !packageName.contains("music") -> R.drawable.logo_youtube
-                packageName.contains("amazonvideo") || packageName.contains("prime") -> R.drawable.logo_prime
-                packageName.contains("crunchyroll") -> R.drawable.logo_crunchyroll
-                packageName.contains("disney") || packageName.contains("hotstar") -> R.drawable.logo_disney
-                packageName.contains("katniss") || packageName.contains("googlequicksearchbox") -> R.drawable.logo_google
-                packageName.contains("settings") -> R.drawable.ic_settings
-                packageName.contains("ludo") || packageName.contains("game") -> R.drawable.ic_gamepad
-                else -> null
-            }
-            if (brandResId != null) {
-                rawDrawable = ContextCompat.getDrawable(context, brandResId)
-            }
+        // 3. Fallback: Elegant modern typography monogram (never null, never hollow boxes)
+        val finalBitmap = if (rawDrawable != null) {
+            drawableToBitmap(rawDrawable, 256, 256)
+        } else {
+            createMonogramBitmap(appName.ifEmpty { packageName })
         }
 
-        // 5. Stylized monogram fallback to guarantee no icon is ever null
-        val finalDrawable = rawDrawable ?: createMonogramDrawable(context, appName.ifEmpty { packageName })
-        val curved = createCurvedDrawable(context, drawableToBitmap(finalDrawable, 256, 256))
+        val curved = createCurvedDrawable(context, finalBitmap)
         cache.put(packageName, curved)
         return curved
     }
@@ -128,44 +125,92 @@ object IconCache {
         return rounded
     }
 
-    private fun drawableToBitmap(drawable: Drawable, width: Int, height: Int): Bitmap {
+    private fun drawableToBitmap(drawable: Drawable, targetWidth: Int, targetHeight: Int): Bitmap {
         if (drawable is BitmapDrawable && drawable.bitmap != null) {
             val b = drawable.bitmap
-            if (b.width >= width && b.height >= height) return b
-            return Bitmap.createScaledBitmap(b, width, height, true)
+            val srcW = b.width
+            val srcH = b.height
+            if (srcW > 0 && srcH > 0) {
+                val aspect = srcW.toFloat() / srcH.toFloat()
+                if (aspect > 1.25f) {
+                    // Center crop wide 16:9 banner into 1:1 squircle
+                    val cropSize = srcH
+                    val cropX = (srcW - cropSize) / 2
+                    val cropped = Bitmap.createBitmap(b, cropX, 0, cropSize, cropSize)
+                    return Bitmap.createScaledBitmap(cropped, targetWidth, targetHeight, true)
+                } else if (aspect < 0.8f) {
+                    val cropSize = srcW
+                    val cropY = (srcH - cropSize) / 2
+                    val cropped = Bitmap.createBitmap(b, 0, cropY, cropSize, cropSize)
+                    return Bitmap.createScaledBitmap(cropped, targetWidth, targetHeight, true)
+                } else {
+                    if (srcW == targetWidth && srcH == targetHeight) return b
+                    return Bitmap.createScaledBitmap(b, targetWidth, targetHeight, true)
+                }
+            }
         }
-        val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+
+        val intrinsicW = if (drawable.intrinsicWidth > 0) drawable.intrinsicWidth else targetWidth
+        val intrinsicH = if (drawable.intrinsicHeight > 0) drawable.intrinsicHeight else targetHeight
+
+        val bitmap = Bitmap.createBitmap(targetWidth, targetHeight, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(bitmap)
-        drawable.setBounds(0, 0, canvas.width, canvas.height)
+
+        val aspect = intrinsicW.toFloat() / intrinsicH.toFloat()
+        if (aspect > 1.25f) {
+            // Wide banner
+            val scaledW = (targetHeight * aspect).toInt()
+            val left = (targetWidth - scaledW) / 2
+            drawable.setBounds(left, 0, left + scaledW, targetHeight)
+        } else if (aspect < 0.8f) {
+            val scaledH = (targetWidth / aspect).toInt()
+            val top = (targetHeight - scaledH) / 2
+            drawable.setBounds(0, top, targetWidth, top + scaledH)
+        } else {
+            drawable.setBounds(0, 0, targetWidth, targetHeight)
+        }
+
         drawable.draw(canvas)
         return bitmap
     }
 
-    private fun createMonogramDrawable(context: Context, name: String): Drawable {
+    private fun createMonogramBitmap(name: String): Bitmap {
         val size = 256
         val bitmap = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(bitmap)
 
+        val hash = kotlin.math.abs(name.hashCode())
+        val palette = intArrayOf(
+            0xFF1E2028.toInt(),
+            0xFF23252E.toInt(),
+            0xFF202630.toInt(),
+            0xFF26222C.toInt(),
+            0xFF202A26.toInt(),
+            0xFF292420.toInt()
+        )
+        val bgColor = palette[hash % palette.size]
+
         val bgPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-            color = Color.parseColor("#222228")
+            color = bgColor
+            style = Paint.Style.FILL
         }
         canvas.drawRect(0f, 0f, size.toFloat(), size.toFloat(), bgPaint)
 
-        val text = name.trim().take(1).uppercase(Locale.getDefault()).ifEmpty { "?" }
+        val cleanName = name.trim().uppercase(Locale.getDefault())
+        val letter = if (cleanName.isNotEmpty()) {
+            cleanName.firstOrNull { it.isLetterOrDigit() }?.toString() ?: cleanName.take(1)
+        } else "A"
+
         val textPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
             color = Color.WHITE
-            textSize = 110f
+            textSize = 104f
             typeface = Typeface.create(Typeface.SANS_SERIF, Typeface.BOLD)
             textAlign = Paint.Align.CENTER
         }
 
-        val yPos = (size / 2 - (textPaint.descent() + textPaint.ascent()) / 2)
-        canvas.drawText(text, size / 2f, yPos, textPaint)
+        val yPos = (size / 2f) - ((textPaint.descent() + textPaint.ascent()) / 2f)
+        canvas.drawText(letter, size / 2f, yPos, textPaint)
 
-        return BitmapDrawable(context.resources, bitmap)
-    }
-
-    fun clear() {
-        cache.evictAll()
+        return bitmap
     }
 }

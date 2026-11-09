@@ -99,7 +99,11 @@ object AppManager {
                 "com.netflix.ninja",
                 "com.google.android.youtube.tv",
                 "com.amazon.amazonvideo.livingroom",
+                "com.disney.disneyplus",
+                "com.disney.disneyplus.tv",
                 "in.startv.hotstar",
+                "in.startv.hotstar.dplus",
+                "com.disney.disneyplus.androidtv",
                 "com.jio.media.stb.ondemand",
                 "tv.airtel.xstream.tvapp",
                 "com.sonyliv",
@@ -108,6 +112,14 @@ object AppManager {
                 "com.neotv.app"
             )
             val pinned = pickMatching(entertainmentPriority, allPkgs, emptySet())
+            if (pinned.size < 4) {
+                for (app in allApps) {
+                    if (!pinned.contains(app.packageName)) {
+                        pinned.add(app.packageName)
+                        if (pinned.size == 4) break
+                    }
+                }
+            }
             prefManager.saveEntertainmentRow(pinned)
         }
 
@@ -122,6 +134,14 @@ object AppManager {
             )
             val used = prefManager.getEntertainmentRow().toSet()
             val pinned = pickMatching(mediaPriority, allPkgs, used)
+            if (pinned.size < 4) {
+                for (app in allApps) {
+                    if (!used.contains(app.packageName) && !pinned.contains(app.packageName)) {
+                        pinned.add(app.packageName)
+                        if (pinned.size == 4) break
+                    }
+                }
+            }
             prefManager.saveMediaRow(pinned)
         }
 
@@ -202,7 +222,10 @@ object AppManager {
 
         // 6. Recent Apps
         if (prefManager.getRecentApps().isEmpty()) {
-            for (pkg in prefManager.getEntertainmentRow().take(3)) {
+            val recents = prefManager.getEntertainmentRow().take(4).ifEmpty {
+                allApps.take(4).map { it.packageName }
+            }
+            for (pkg in recents) {
                 prefManager.addRecentApp(pkg)
             }
         }
